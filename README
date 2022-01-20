@@ -1,0 +1,48 @@
+Release 0.4.2 (29 Jun. 2021)
+----------------------------
+
+* Added -T option.
+
+* Fixed typos in Makefile.
+
+
+Release 0.4.0 (31 Jan. 2021)
+----------------------------
+
+* Added file processor, fmatconvol. This accepts
+  the same config files as jmatconvol, and any
+  reference to port names etc. are ignored.
+
+* Added commands to read the entire matrix
+  from a single audio file, see README_CONFIG.
+
+* Bugfixes, empty connection names are now
+  handled correctly.
+ 
+
+Release notes for jmatconvol
+----------------------------
+
+Jmatconvol is a real-time convolution engine. In
+contrast to jconvolver it uses a single partition
+size equal to the Jack period, and is optimised
+for dense matrices of short convolutions, e.g.
+for processing signals from spherical microphones
+such as the Eigenmike. The maximum convolution
+length is limited to 4096 samples in this release.
+
+For any other type of use (sparse matrics, longer
+convolutions,...) jconvolver is probably a better
+choice.
+
+Jmatconvol can compute up to a 64 by 64 convolution
+matrix (i.e. 4096 simultaneous convolutions) as long
+as your CPU(s) can handle the load. The computation
+work is performed by a user configurable number of
+parallel threads, allowing to distribute the load
+over all available CPUs.
+
+For configuration details, see README_CONFIG
+
+-- 
+FA

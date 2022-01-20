@@ -1,0 +1,74 @@
+Configuration file format for jmatconvol and fmatconvol
+-------------------------------------------------------
+
+
+See the files in the directory 'config-files' for some
+examples. Lines starting with '#' are comments.
+
+
+The following commands are available:
+
+
+/convolver/new  <inputs> <outputs> <maximum impulse length> <number of threads>
+
+    This command is always required and must be first one.
+
+    The 'maximum impulse length' has an impact on the amount of memory
+    used and on the CPU load. Do not use a larger value than necessary.
+    It is limited to 4096 samples in this release.
+    
+    The compution load can be more or less equally distributed over
+    a configurable number of parallel threads. This value should
+    normally be equal to the number of available CPUs.
+
+
+/input/name <input number> <port name> {<source port>}
+/output/name <output number> <port name> {<destination port>}
+
+    These can be used to provide more informative ports names,
+    and to optionally connect the inputs or outputs. Input and
+    output numbers start at 1. These command are ignored by
+    fmatconvol.  
+
+
+/cd <path>
+
+    Change the directory where impulse response files are searched
+    for to 'path'. Permits the use of short names in the commands
+    below. Initial value is the current directory.
+
+
+/matrix/load  <gain> <file>
+
+    Load the entire convolution matrix from an audio file.
+    If 'ninp' and 'nout' are the matrix dimensions, the file
+    must have 'ninp' channels, and the file size in frames
+    must be an exact multiple of 'nout'. The file will be
+    read as 'nout' equal lenght sections, one for each output.
+    The 'gain' parameter is a linear gain factor.
+
+
+/matrix/load_transp  <gain> <file>
+
+    Load the entire convolution matrix from an audio file.
+    If 'ninp' and 'nout' are the matrix dimensions, the file
+    must have 'nout' channels, and the file size in frames
+    must be an exact multiple of 'ninp'. The file will be
+    read as 'ninp' equal lenght sections, one for each input.
+    The 'gain' parameter is a linear gain factor.
+
+
+/matrix/load_output <output> <gain> <file>
+
+    Load the all impulses for a single output from an audio file.
+    The file  must have 'ninp' channels. Output numbers start at 1.
+    The 'gain' parameter is a linear gain factor.
+
+
+/matrix/load_input <input> <gain> <file>
+
+    Load the all impulses for a single input from an audio file.
+    The file  must have 'nout' channels. Input numbers start at 1.
+    The 'gain' parameter is a linear gain factor.
+
+
