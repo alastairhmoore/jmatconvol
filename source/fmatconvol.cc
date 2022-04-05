@@ -99,7 +99,7 @@ int main (int ac, char *av [])
     int            i, j, k, nd, ninp, nout, fsamp, fragm;
     long           nf;
     float          *buff1, *buff2, *p, *q;
-    float          *data [64];
+    float          *data [1024];
     Config         *config;
     Audiofile      Ainp, Aout;
 
