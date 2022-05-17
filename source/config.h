@@ -51,8 +51,10 @@ private:
 	   ERR_CANTCD, ERR_COMMAND, ERR_NOCONV, ERR_IONUM };
 
     int make_convproc (const char *line);
-    int read_input (const char *line);
-    int read_output (const char *line);
+    int input_name (const char *line);
+    int output_name (const char *line);
+    int input_gain (const char *line, bool dB);
+    int output_gain (const char *line, bool dB);
     int load_matrix (const char *line, bool transp, bool single);
     int open_file (const char *file);
     
@@ -72,6 +74,8 @@ private:
     char         *_out_name [Denseconv::MAXOUT];
     char         *_inp_conn [Denseconv::MAXINP];
     char         *_out_conn [Denseconv::MAXOUT];
+    float         _inp_gain [Denseconv::MAXINP];
+    float         _out_gain [Denseconv::MAXOUT];
 };
 
 

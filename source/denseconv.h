@@ -1,7 +1,7 @@
 // ----------------------------------------------------------------------------
 //
 //  Copyright (C) 2010-2020 Fons Adriaensen <fons@linuxaudio.org>
-//
+//    
 //  This program is free software; you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
 //  the Free Software Foundation; either version 3 of the License, or
@@ -34,7 +34,7 @@ class DCfdata
 
 private:
 
-    DCfdata (void): _npart (0), _fsize (0), _freq_data (0) {}
+    DCfdata (void): _npart (0), _fsize (0), _freq_data (0) {}	
     ~DCfdata (void) { fini (); }
 
     void init (int npart, int fsize);
@@ -43,7 +43,7 @@ private:
 
     int              _npart;
     int              _fsize;
-    fftwf_complex  **_freq_data;
+    fftwf_complex  **_freq_data;   
 };
 
 
@@ -88,7 +88,7 @@ private:
     fftwf_plan       _plan_c2r;       // FFTW plan, inverse FFT
     DCfdata         *_inp_fdata;
     DCfdata         *_mac_fdata;
-};
+};    
 
 
 class Workthr: public Pxthread
@@ -139,3 +139,5 @@ private:
 
 
 #endif
+
+

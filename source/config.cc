@@ -43,6 +43,8 @@ Config::Config (unsigned int fsamp, unsigned int fragm) :
     memset (_inp_conn, 0, Denseconv::MAXINP * sizeof (char *));
     memset (_out_name, 0, Denseconv::MAXOUT * sizeof (char *));
     memset (_out_conn, 0, Denseconv::MAXOUT * sizeof (char *));
+    for (int i = 0; i < Denseconv::MAXINP; i++) _inp_gain [i] = 1.0f;
+    for (int i = 0; i < Denseconv::MAXOUT; i++) _out_gain [i] = 1.0f;
 }
 
 
@@ -90,8 +92,12 @@ int Config::read_config (const char *file)
             if (sstring (q, _cdir, 512) == 0) _stat = ERR_PARAM;
         }	
         else if (! strcmp (p, "/convolver/new")) _stat = make_convproc (q);
-        else if (! strcmp (p, "/input/name"))    _stat = read_input (q); 
-        else if (! strcmp (p, "/output/name"))   _stat = read_output (q); 
+        else if (! strcmp (p, "/input/name"))    _stat = input_name (q); 
+        else if (! strcmp (p, "/output/name"))   _stat = output_name (q); 
+        else if (! strcmp (p, "/input/gain"))    _stat = input_gain (q, false); 
+        else if (! strcmp (p, "/input/dbgain"))  _stat = input_gain (q, true); 
+        else if (! strcmp (p, "/output/gain"))   _stat = output_gain (q, false); 
+        else if (! strcmp (p, "/output/dbgain")) _stat = output_gain (q, true); 
         else if (! strcmp (p, "/matrix/load"))        _stat = load_matrix (q, false, false); 
         else if (! strcmp (p, "/matrix/load_transp")) _stat = load_matrix (q, true, false); 
         else if (! strcmp (p, "/matrix/load_output")) _stat = load_matrix (q, false, true); 
@@ -168,7 +174,7 @@ int Config::make_convproc (const char *line)
 }
 
 
-int Config::read_input (const char *line)
+int Config::input_name (const char *line)
 {
     unsigned int  i, n;
     char          s [256];
@@ -186,7 +192,7 @@ int Config::read_input (const char *line)
 }
 
 
-int Config::read_output (const char *line)
+int Config::output_name (const char *line)
 {
     unsigned int  i, n;
     char          s [256];
@@ -204,12 +210,38 @@ int Config::read_output (const char *line)
 }
 
 
+int Config::input_gain (const char *line, bool dB)
+{
+    unsigned int  i, n;
+    float         g;
+
+    if (sscanf (line, "%u %f %n", &i, &g, &n) != 2) return ERR_PARAM;
+    if (--i >= _ninp) return ERR_IONUM;
+    if (dB) g = powf (10.0f, g / 20);
+    _inp_gain [i] = g;
+    return 0;
+}
+
+
+int Config::output_gain (const char *line, bool dB)
+{
+    unsigned int  i, n;
+    float         g;
+
+    if (sscanf (line, "%u %f %n", &i, &g, &n) != 2) return ERR_PARAM;
+    if (--i >= _nout) return ERR_IONUM;
+    if (dB) g = powf (10.0f, g / 20);
+    _out_gain [i] = g;
+    return 0;
+}
+
+
 int Config::load_matrix (const char *line, bool transp, bool single)
 {
     int     i, j, n;
     int     index, nchan, nsect, nfram, nused;
     char    file [512];
-    float   gain;
+    float   gain, g;
     float  *buff;
 
     if (single)
@@ -284,8 +316,16 @@ int Config::load_matrix (const char *line, bool transp, bool single)
         _afile.read (buff, nused);
         for (i = 0; i < nchan; i++)
         {
-	    if (transp) _convproc->setimp (j + index, i, gain, buff + i, nused, nchan);
-	    else        _convproc->setimp (i, j + index, gain, buff + i, nused, nchan);
+	    if (transp)
+            {
+                g = gain * _inp_gain [j + index] * _out_gain [i];
+                _convproc->setimp (j + index, i, g, buff + i, nused, nchan);
+            }
+	    else
+            {
+                g = gain * _inp_gain [i] * _out_gain [j + index];
+                _convproc->setimp (i, j + index, g, buff + i, nused, nchan);
+            }
         }
     }
     _afile.close ();

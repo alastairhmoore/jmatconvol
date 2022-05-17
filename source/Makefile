@@ -21,7 +21,7 @@
 PREFIX ?= /usr/local
 BINDIR ?= $(PREFIX)/bin
 
-VERSION = 0.4.2
+VERSION = 0.5.2
 CPPFLAGS += -MMD -MP -DVERSION=\"$(VERSION)\"
 CXXFLAGS += -O2 -Wall
 CXXFLAGS += -march=native

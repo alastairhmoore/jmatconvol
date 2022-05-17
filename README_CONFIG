@@ -31,6 +31,15 @@ The following commands are available:
     fmatconvol.  
 
 
+/input/gain <input number> <linear gain>
+/input/dbgain <input number> <gainin dB>
+/output/gain <output number> <linear gain>
+/output/dbgain <output number> <gainin dB>
+
+    These can be used to apply an additional gain factor
+    to each input or output.
+
+
 /cd <path>
 
     Change the directory where impulse response files are searched

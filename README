@@ -1,3 +1,15 @@
+Release 0.5.2 (5 Apr. 2022)
+----------------------------
+
+* Fixed allocation in fmatconvol.
+
+
+Release 0.5.1 (1 Dec. 2021)
+----------------------------
+
+* Added input and out gain factors.
+
+
 Release 0.4.2 (29 Jun. 2021)
 ----------------------------
 

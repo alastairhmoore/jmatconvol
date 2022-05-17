@@ -94,12 +94,15 @@ static void sigint_handler (int)
 }
 
 
+typedef float *floatp;
+
+
 int main (int ac, char *av [])
 {
     int            i, j, k, nd, ninp, nout, fsamp, fragm;
     long           nf;
     float          *buff1, *buff2, *p, *q;
-    float          *data [1024];
+    floatp         *data;
     Config         *config;
     Audiofile      Ainp, Aout;
 
@@ -146,6 +149,7 @@ int main (int ac, char *av [])
     } 
 
     nd = (ninp > nout) ? ninp : nout;
+    data = new floatp [nd];
     buff1 = new float [nd * fragm]; 
     buff2 = new float [nd * fragm];
     for (i = 0; i < nd; i++) data [i] = buff2 + i * fragm;
@@ -183,6 +187,7 @@ int main (int ac, char *av [])
     Ainp.close ();
     Aout.close ();
     if (stop) unlink (av [2]);
+    delete[] data;
     delete[] buff1;
     delete[] buff2;
     delete config;

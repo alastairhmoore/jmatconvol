@@ -39,7 +39,7 @@ static bool          stop  = false;
 static void help (void)
 {
     fprintf (stderr, "\njmatconvol %s\n", VERSION);
-    fprintf (stderr, "(C) 2006-2020 Fons Adriaensen  <fons@linuxaudio.org>\n\n");
+    fprintf (stderr, "(C) 2006-2021 Fons Adriaensen  <fons@linuxaudio.org>\n\n");
     fprintf (stderr, "Usage: jmatconvol <options> <config file>\n");
     fprintf (stderr, "Options:\n");
     fprintf (stderr, "  -h                 Display this text\n");
